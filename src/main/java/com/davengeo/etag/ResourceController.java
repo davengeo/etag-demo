@@ -40,15 +40,12 @@ public class ResourceController {
     public ResponseEntity<String> createOne(@PathVariable("channelId") String channelId,
                                             @RequestBody String content) {
         cache.put(channelId, content);
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>(content, OK);
     }
 
     @RequestMapping(value = "/channel/", method = GET)
     public ResponseEntity<String> findAll() {
-        return new ResponseEntity<>(cache.
-                asMap().
-                keySet().
-                stream().
+        return new ResponseEntity<>(cache.asMap().keySet().stream().
                 reduce("", (s, key) -> s += cache.getIfPresent(key)), OK);
     }
 
